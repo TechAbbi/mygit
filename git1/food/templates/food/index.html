@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+<center><h1>  Item List </h1></center>
+<hr>
+<br>
+<a href="{% url 'food:add' %}">Add Item</a>
+{% for item in item_list %}
+<ul>
+    <li> {{item}}  <a href="{% url 'food:details' item.id %}"> <button type="button">Detail </button> </a> </li>
+</ul>
+
+{% endfor %}
+</body>
+</html>
