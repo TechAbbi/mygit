@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Add</title>
+    <link rel="stylesheet" href="{% static 'food/style.css' %}">
 </head>
 <body>
+<a href="{% url 'food:index' %}">Home</a>
 <form method="post">
   {% csrf_token %}
   <ul>
     <li> Item Name: {{form.item_name}}</li><br>
     <li> Item Description: {{form.item_desc}}</li><br>
-    <li> Item Price: {{form.item_price}}</li>
+    <li> Item Price: {{form.item_price}}</li><br>
+      <li> Item Image:{{form.item_img}}</li>
   </ul>
   <button type="submit">Save</button>
 </form>
