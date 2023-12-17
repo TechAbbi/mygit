@@ -11,7 +11,7 @@
 <form method="post">
   {% csrf_token %}
   <ul>
-    <li> Item Name: {{form.item_name}}</li><br>
+    <li> Item Name: {{form.name}}</li><br>
     <li> Item Description: {{form.item_desc}}</li><br>
     <li> Item Price: {{form.item_price}}</li><br>
       <li> Item Image:{{form.item_img}}</li>

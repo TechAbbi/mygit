@@ -6,12 +6,25 @@ from django.views.generic.detail import DetailView
 from .form import ItemForm
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.urls import reverse_lazy
-
+from django.core.paginator import Paginator
+from rest_framework import viewsets
+from .serializers import ItemSerializer
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 def index(request):
-    item_list = Item.objects.all()
+    item_list = Item.objects.all().order_by("-item_price")
+
+    search_query = request.GET.get("item_name")
+
+    if search_query != "" and search_query is not None:
+        item_list = item_list.filter(name__icontains=search_query).order_by("-item_price")
+
+    paginator = Paginator(item_list, 2)
+    page = request.GET.get("page")
+    item_list = paginator.get_page(page)
+
     return render(request, "food/index.html", {"item_list": item_list})
 
     # return HttpResponse("Hello")
@@ -21,6 +34,27 @@ class IndexListView(ListView):
     model = Item
     template_name = "food/index.html"
     context_object_name = "item_list"
+    paginate_by = 2
+
+@login_required
+def range_below_hundred(request):
+    item_list = Item.objects.all().order_by("-item_price")
+
+    item_below_100 = []
+    item_value = []
+    top_three_item =[]
+
+    for item in item_list:
+        if item.item_price < 100:
+            item_below_100.append(item)
+
+    for item in item_list:
+        item_value.append(item.item_price)
+        if item.item_price in item_value[:3]:
+            top_three_item.append(item)
+
+
+    return render(request, "food/range.html", {"item_list": item_below_100})
 
 
 def details(request, item_id):
@@ -79,3 +113,10 @@ class UpdateItem(UpdateView):
     form_class = ItemForm
     template_name = "food/add.html"
     success_url = reverse_lazy("food:index")
+
+
+class ItemListViewSet(viewsets.ModelViewSet):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
+
+

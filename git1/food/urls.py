@@ -3,8 +3,8 @@ from . import views
 
 app_name = "food"
 urlpatterns = [
-    # path("", views.index, name="index"),
-    path("", views.IndexListView.as_view(), name="index"),
+    path("", views.index, name="index"),
+    # path("", views.IndexListView.as_view(), name="index"),
     # path("details/<int:item_id>/", views.details, name="details"),
     path("details/<pk>/", views.FoodDetails.as_view(), name="details"),
     # path("add/", views.add, name="add"),
@@ -13,4 +13,5 @@ urlpatterns = [
     path("delete/<pk>/", views.DeleteItem.as_view(), name="delete"),
     # path("update/<int:item_id>/", views.update, name="update"),
     path("update/<pk>/", views.UpdateItem.as_view(), name="update"),
+    path("range/", views.range_below_hundred, name="below_hundred")
 ]

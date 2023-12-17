@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>info</title>
+</head>
+<body>
+<form method="get">
+    <input type="search" name="movie_name">
+    <button type="submit">Search</button>
+</form>
+
+{% for movie in movie_list %}
+<ul>
+    <li>{{movie}}</li>
+</ul>
+{% endfor %}
+
+{% if movie_list.has_previous %}
+<a href="?page=1">First</a>
+<a href="?page={{movie_list.previous_page_number}}">Previous</a>
+{% endif %}
+{{movie_list.number}} of {{movie_list.paginator.num_pages}}
+{% if movie_list.has_next %}
+<a href="?page={{movie_list.next_page_number}}">Next</a>
+<a href="?page={{movie_list.paginator.num_pages}}">Last</a>
+{% endif %}
+</body>
+</html>

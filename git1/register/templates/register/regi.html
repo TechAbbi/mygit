@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>delete</title>
+    <title>form</title>
 </head>
 <body>
+<center><h1>User Registration</h1></center>
+<hr>
+<br>
 <form method="post">
   {% csrf_token %}
-  <h1> Are you sure you want to delete the item, {{item.name}}</h1>
-  <button type="submit">Confirm</button>
+  {{form}}
+<button type="submit">Sign Up</button>
 </form>
 </body>
 </html>

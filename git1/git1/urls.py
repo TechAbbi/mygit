@@ -16,8 +16,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import routers
+from movies.views import MovieList, ActionMovies, ComedyMovies, movie_info
+from food.views import ItemListViewSet
+from register import views as user_views
+from django.contrib.auth import views as authentication_views
+
+router = routers.SimpleRouter()
+router.register('movies', MovieList)
+router.register("action", ActionMovies)
+router.register("comedy", ComedyMovies)
+router.register("items", ItemListViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("food/", include("food.urls"))
+    path("food/", include("food.urls")),
+    path("info/", include(router.urls)),
+    path("movies/", movie_info),
+    path("register/", user_views.user_register, name="user_registration"),
+    path("login/", authentication_views.LoginView.as_view(template_name="register/login.html"), name="login"),
+    path("logout/", authentication_views.LogoutView.as_view(template_name="register/logout.html"), name="logout")
 ]

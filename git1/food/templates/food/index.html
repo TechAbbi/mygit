@@ -5,15 +5,43 @@
     <title>index</title>
 </head>
 <body>
+
 <center><h1>  Item List </h1></center>
 <hr>
+{% if messages %}
+{% for message in messages %}
+{{message}}
+{% endfor %}
+{% endif %}
+<br>
+
+<form method="get">
+    Search by name : <input type="search" name="item_name" >
+    <button type="submit">Search </button>
+</form>
+<br><br>
 <br>
 <a href="{% url 'food:add' %}">Add Item</a>
+<br>
 {% for item in item_list %}
 <ul>
     <li> {{item}}  <a href="{% url 'food:details' item.id %}"> <button type="button">Detail </button> </a> </li>
 </ul>
 
 {% endfor %}
+<br>
+<a href="{% url 'food:below_hundred' %}">Item price Below Hundred </a>
+<br>
+{% if item_list.has_previous %}
+<a href="?page=1">First</a>
+<a href="?page={{item_list.previous_page_number}}"> Previous </a>
+{% endif %}
+
+{{item_list.number}} of {{item_list.paginator.num_pages}}
+
+{% if item_list.has_next %}
+<a href="?page={{item_list.next_page_number}}">Next</a>
+<a href="?page={{item_list.paginator.num_pages}}">Last</a>
+{% endif %}
 </body>
 </html>
